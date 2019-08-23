@@ -1,4 +1,4 @@
-class Root < Formula
+class RootAnaconda < Formula
   desc "Object oriented framework for large scale data analysis"
   homepage "https://root.cern.ch/"
   url "https://root.cern.ch/download/root_v6.18.00.source.tar.gz"
