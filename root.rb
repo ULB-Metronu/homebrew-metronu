@@ -3,7 +3,7 @@ class Root < Formula
   homepage "https://root.cern.ch/"
   url "https://root.cern.ch/download/root_v6.18.02.source.tar.gz"
   version "6.18.02"
-  sha256 "e6698d6cfe585f186490b667163db65e7d1b92a2447658d77fa831096383ea71"
+  sha256 "50ffffdbf2585a536c77a03f54aa631926138275ffeee02e5a16dde87e978c1d"
   head "https://github.com/root-project/root.git"
 
   bottle do
