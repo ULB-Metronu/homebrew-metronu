@@ -1,8 +1,8 @@
 class Root < Formula
   desc "Object oriented framework for large scale data analysis"
   homepage "https://root.cern.ch/"
-  url "https://root.cern.ch/download/root_v6.18.00.source.tar.gz"
-  version "6.18.00"
+  url "https://root.cern.ch/download/root_v6.18.02.source.tar.gz"
+  version "6.18.02"
   sha256 "e6698d6cfe585f186490b667163db65e7d1b92a2447658d77fa831096383ea71"
   head "https://github.com/root-project/root.git"
 
@@ -55,9 +55,9 @@ class Root < Formula
               "http://lcgpackages",
               "https://lcgpackages"
 
-    py_exe = "/Users/chernals/miniconda3/envs/py27" # Utils.popen_read("which python3").strip
-    py_prefix = Utils.popen_read("/Users/chernals/miniconda3/envs/py27/bin/python -c 'import sys;print(sys.prefix)'").chomp
-    py_inc = Utils.popen_read("/Users/chernals/miniconda3/envs/py27/bin/python -c 'from distutils import sysconfig;print(sysconfig.get_python_inc(True))'").chomp
+    py_exe = "/usr/local/bin/python3" # Utils.popen_read("which python3").strip
+    py_prefix = Utils.popen_read("#{py_exe} -c 'import sys;print(sys.prefix)'").chomp
+    py_inc = Utils.popen_read("#{py_exe} -c 'from distutils import sysconfig;print(sysconfig.get_python_inc(True))'").chomp
 
     args = std_cmake_args + %W[
       -DCLING_CXX_PATH=clang++
@@ -97,7 +97,8 @@ class Root < Formula
       if MacOS.version < :high_sierra
         system "xcrun", "make", "install"
       else
-        system "make", "install"
+        system "cmake --build . -- -j8"
+        system "cmake --build . -- install"
       end
 
       chmod 0755, Dir[bin/"*.*sh"]
