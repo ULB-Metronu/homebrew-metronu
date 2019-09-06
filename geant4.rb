@@ -88,7 +88,7 @@ class Geant4 < Formula
     args << "-DGEANT4_USE_OPENGL_X11=ON" if build.with? "opengl-x11"
     args << "-DGEANT4_USE_RAYTRACER_X11=ON" if build.with? "raytracer-x11"
     args << "-DGEANT4_USE_XM=OFF"
-    args << "-DGEANT4_INSTALL_DATA=ON"
+    args << "-DGEANT4_INSTALL_DATA=OFF"
     args << "-DGEANT4_BUILD_EXAMPLE=OFF" if build.without? "example"
     args << "-DGEANT4_USE_QT=ON" if build.with? "qt"
     #args << "-DQT_QMAKE_EXECUTABLE=/usr/local/opt/qt/bin/qmake" if OS.mac? and build.with? "qt"
@@ -100,7 +100,7 @@ class Geant4 < Formula
     args << "-DGEANT4_USE_SYSTEM_CLHEP=ON" if build.with? "system-clhep"
     args.concat(std_cmake_args)
     system "cmake", *args
-    system "make", "-j16", "install"
+    system "make", "-j8", "install"
   end
 
     resources.each do |r|
