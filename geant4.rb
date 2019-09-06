@@ -1,166 +1,131 @@
 class Geant4 < Formula
-  desc "Object oriented framework for large scale data analysis"
-  homepage "https://root.cern.ch/"
-  url "https://root.cern.ch/download/root_v6.18.00.source.tar.gz"
-  version "6.18.00"
-  sha256 "e6698d6cfe585f186490b667163db65e7d1b92a2447658d77fa831096383ea71"
-  head "https://github.com/root-project/root.git"
+  desc "Simulation toolkit for particle transport through matter"
+  homepage "https://geant4.web.cern.ch"
+  url "http://geant4-data.web.cern.ch/geant4-data/releases/source/geant4.10.05.p01.tar.gz"
+  version "10.5.1"
+  sha256 "f4a292220500fad17e0167ce3153e96e3410ecbe96284e572dc707f63523bdff"
 
   bottle do
-    sha256 "40cec3904743cdea491c2902a3a02ed3ed37cebc51e4c06422581bc4db55619e" => :mojave
-    sha256 "742151f6e2c88871ce2fc78523c52d760d24e4f9e13c65463bbd5461dad42bd1" => :high_sierra
-    sha256 "5d57207635e536423a9b8e45ccc2cff38eb582fb126fe5163f1cf76f9f660deb" => :sierra
+    cellar :any
+    sha256 "268255d7e0af6a6dfb1305eed9f3a838a44fe9ef67ef465b510a60893de8f571" => :mojave
+    sha256 "7ed35e045f2ea368fce0ee929406187b230ea608ec2328e539b82c25e878f09b" => :high_sierra
+    sha256 "c3e542d8f1ff4561437e31b8aae44fe00e922d613bfaaa56611e7392f897c22c" => :sierra
   end
 
-  # https://github.com/Homebrew/homebrew-core/issues/30726
-  # strings libCling.so | grep Xcode:
-  #  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1
-  #  /Applications/Xcode.app/Contents/Developer
-  pour_bottle? do
-    reason "The bottle hardcodes locations inside Xcode.app"
-    satisfy do
-      MacOS::Xcode.installed? &&
-        MacOS::Xcode.prefix.to_s.include?("/Applications/Xcode.app/")
-    end
+  option "with-gdml", "Build Geant with GDML support"
+  option "with-multithreaded", "Build Geant with multithreading support"
+  option "with-usolids", "Use USolids (experimental)"
+  option "with-qt", "Build Geant with QT visualization support"
+  option "without-examples", "Do not build Geant4 examples"
+  option "with-system-clhep", "Use system CLHEP"
+  option "with-opengl-x11", "Build the X11 OpenGL visualization driver"
+  option "with-raytracer-x11", "Build RayTracer visualization driver with X11 support"
+
+  depends_on "cmake" => [:build, :test]
+  depends_on "qt" => :optional
+  depends_on "xerces-c" if build.with? "gdml"
+
+  resource "G4NDL" do
+    url "https://cern.ch/geant4-data/datasets/G4NDL.4.5.tar.gz"
+    sha256 "cba928a520a788f2bc8229c7ef57f83d0934bb0c6a18c31ef05ef4865edcdf8e"
   end
 
-  depends_on "cmake" => :build
-  depends_on "davix"
-  depends_on "fftw"
-  depends_on "gcc" # for gfortran
-  depends_on "graphviz"
-  depends_on "gsl"
-  # Temporarily depend on Homebrew libxml2 to work around a brew issue:
-  # https://github.com/Homebrew/brew/issues/5068
-  depends_on "libxml2" if MacOS.version >= :mojave
-  depends_on "lz4"
-  depends_on "openssl"
-  depends_on "pcre"
-  depends_on "python"
-  depends_on "tbb"
-  depends_on "xrootd"
-  depends_on "xz" # for LZMA
+  resource "G4EMLOW" do
+    url "https://cern.ch/geant4-data/datasets/G4EMLOW.7.7.tar.gz"
+    sha256 "16dec6adda6477a97424d749688d73e9bd7d0b84d0137a67cf341f1960984663"
+  end
 
-  skip_clean "bin"
+  resource "PhotonEvaporation" do
+    url "https://cern.ch/geant4-data/datasets/G4PhotonEvaporation.5.3.tar.gz"
+    sha256 "d47ababc8cbe548065ef644e9bd88266869e75e2f9e577ebc36bc55bf7a92ec8"
+  end
+
+  resource "RadioactiveDecay" do
+    url "https://cern.ch/geant4-data/datasets/G4RadioactiveDecay.5.3.tar.gz"
+    sha256 "5c8992ac57ae56e66b064d3f5cdfe7c2fee76567520ad34a625bfb187119f8c1"
+  end
+
+  resource "G4SAIDDATA" do
+    url "https://cern.ch/geant4-data/datasets/G4SAIDDATA.2.0.tar.gz"
+    sha256 "1d26a8e79baa71e44d5759b9f55a67e8b7ede31751316a9e9037d80090c72e91"
+  end
+
+  resource "G4PARTICLEXS" do
+    url "https://cern.ch/geant4-data/datasets/G4PARTICLEXS.1.1.tar.gz"
+    sha256 "100a11c9ed961152acfadcc9b583a9f649dda4e48ab314fcd4f333412ade9d62"
+  end
+
+  resource "G4ABLA" do
+    url "https://cern.ch/geant4-data/datasets/G4ABLA.3.1.tar.gz"
+    sha256 "7698b052b58bf1b9886beacdbd6af607adc1e099fc730ab6b21cf7f090c027ed"
+  end
+
+  resource "G4INCL" do
+    url "https://cern.ch/geant4-data/datasets/G4INCL.1.0.tar.gz"
+    sha256 "716161821ae9f3d0565fbf3c2cf34f4e02e3e519eb419a82236eef22c2c4367d"
+  end
+
+  resource "G4PII" do
+    url "https://cern.ch/geant4-data/datasets/G4PII.1.3.tar.gz"
+    sha256 "6225ad902675f4381c98c6ba25fc5a06ce87549aa979634d3d03491d6616e926"
+  end
+
+  resource "G4ENSDFSTATE" do
+    url "https://cern.ch/geant4-data/datasets/G4ENSDFSTATE.2.2.tar.gz"
+    sha256 "dd7e27ef62070734a4a709601f5b3bada6641b111eb7069344e4f99a01d6e0a6"
+  end
+
+  resource "RealSurface" do
+    url "https://cern.ch/geant4-data/datasets/G4RealSurface.2.1.1.tar.gz"
+    sha256 "90481ff97a7c3fa792b7a2a21c9ed80a40e6be386e581a39950c844b2dd06f50"
+  end
 
   def install
-    # Work around "error: no member named 'signbit' in the global namespace"
-    ENV.delete("SDKROOT") if DevelopmentTools.clang_build_version >= 900
-
-    # Freetype/afterimage/gl2ps/lz4 are vendored in the tarball, so are fine.
-    # However, this is still permitting the build process to make remote
-    # connections. As a hack, since upstream support it, we inreplace
-    # this file to "encourage" the connection over HTTPS rather than HTTP.
-    inreplace "cmake/modules/SearchInstalledSoftware.cmake",
-              "http://lcgpackages",
-              "https://lcgpackages"
-
-    py_exe = "/Users/chernals/miniconda3/envs/py27" # Utils.popen_read("which python3").strip
-    py_prefix = Utils.popen_read("/Users/chernals/miniconda3/envs/py27/bin/python -c 'import sys;print(sys.prefix)'").chomp
-    py_inc = Utils.popen_read("/Users/chernals/miniconda3/envs/py27/bin/python -c 'from distutils import sysconfig;print(sysconfig.get_python_inc(True))'").chomp
-
-    args = std_cmake_args + %W[
-      -DCLING_CXX_PATH=clang++
-      -DCMAKE_INSTALL_ELISPDIR=#{elisp}
-      -DPYTHON_EXECUTABLE=#{py_exe}
-      -DPYTHON_INCLUDE_DIR=#{py_inc}
-      -DPYTHON_LIBRARY=#{py_prefix}/Python
-      -Dbuiltin_cfitsio=OFF
-      -Dbuiltin_freetype=ON
-      -Ddavix=ON
-      -Dfftw3=ON
-      -Dfitsio=OFF
-      -Dfortran=ON
-      -Dgdml=ON
-      -Dgnuinstall=ON
-      -Dimt=ON
-      -Dmathmore=ON
-      -Dminuit2=ON
-      -Dmysql=OFF
-      -Dpgsql=OFF
-      -Dpython=ON
-      -Droofit=ON
-      -Dssl=ON
-      -Dtmva=ON
-      -Dxrootd=ON
+    mkdir "geant-build" do
+    args = %w[
+      ../
     ]
+    args << "-DGEANT4_USE_OPENGL_X11=ON" if build.with? "opengl-x11"
+    args << "-DGEANT4_USE_RAYTRACER_X11=ON" if build.with? "raytracer-x11"
+    args << "-DGEANT4_USE_XM=OFF"
+    args << "-DGEANT4_INSTALL_DATA=ON"
+    args << "-DGEANT4_BUILD_EXAMPLE=OFF" if build.without? "example"
+    args << "-DGEANT4_USE_QT=ON" if build.with? "qt"
+    #args << "-DQT_QMAKE_EXECUTABLE=/usr/local/opt/qt/bin/qmake" if OS.mac? and build.with? "qt"
+    args << "-DGEANT4_USE_G3TOG4=ON" if build.with? "g3tog4"
+    args << "-DGEANT4_USE_GDML=ON" if build.with? "gdml"
+    args << "-DGEANT4_USE_USOLIDS=ON" if build.with? "usolids"
+    args << "-DGEANT4_BUILD_MULTITHREADED=ON" if build.with? "multithreaded"
+    args << "-DGEANT4_BUILD_MULTITHREADED=OFF" if build.without? "multithreaded"
+    args << "-DGEANT4_USE_SYSTEM_CLHEP=ON" if build.with? "system-clhep"
+    args.concat(std_cmake_args)
+    system "cmake", *args
+    system "make", "-j16", "install"
+  end
 
-    cxx_version = (MacOS.version < :mojave) ? 14 : 17
-    args << "-DCMAKE_CXX_STANDARD=#{cxx_version}"
-
-    mkdir "builddir" do
-      system "cmake", "..", *args
-
-      # Work around superenv stripping out isysroot leading to errors with
-      # libsystem_symptoms.dylib (only available on >= 10.12) and
-      # libsystem_darwin.dylib (only available on >= 10.13)
-      if MacOS.version < :high_sierra
-        system "xcrun", "make", "install"
-      else
-        system "make", "install"
-      end
-
-      chmod 0755, Dir[bin/"*.*sh"]
+    resources.each do |r|
+      (share/"Geant4-#{version}/data/#{r.name}#{r.version}").install r
     end
   end
 
   def caveats; <<~EOS
-    Because ROOT depends on several installation-dependent
-    environment variables to function properly, you should
-    add the following commands to your shell initialization
-    script (.bashrc/.profile/etc.), or call them directly
-    before using ROOT.
-
-    For bash users:
-      . #{HOMEBREW_PREFIX}/bin/thisroot.sh
-    For zsh users:
-      pushd #{HOMEBREW_PREFIX} >/dev/null; . bin/thisroot.sh; popd >/dev/null
-    For csh/tcsh users:
-      source #{HOMEBREW_PREFIX}/bin/thisroot.csh
-    For fish users:
-      . #{HOMEBREW_PREFIX}/bin/thisroot.fish
+    Because Geant4 expects a set of environment variables for
+    datafiles, you should source:
+      . #{HOMEBREW_PREFIX}/bin/geant4.sh (or .csh)
+    If using zsh use this variant:
+      pushd /usr/local/bin >/dev/null; . ./geant4.sh; popd >/dev/null
+    before running an application built with Geant4.
   EOS
   end
 
   test do
-    (testpath/"test.C").write <<~EOS
-      #include <iostream>
-      void test() {
-        std::cout << "Hello, world!" << std::endl;
-      }
+    system "cmake", share/"Geant4-#{version}/examples/basic/B1"
+    system "make"
+    (testpath/"test.sh").write <<~EOS
+      . #{bin}/geant4.sh
+      ./exampleB1 run2.mac
     EOS
-
-    # Test ROOT command line mode
-    system "#{bin}/root", "-b", "-l", "-q", "-e", "gSystem->LoadAllLibraries(); 0"
-
-    # Test ROOT executable
-    (testpath/"test_root.bash").write <<~EOS
-      . #{bin}/thisroot.sh
-      root -l -b -n -q test.C
-    EOS
-    assert_equal "\nProcessing test.C...\nHello, world!\n",
-                 shell_output("/bin/bash test_root.bash")
-
-    (testpath/"test.cpp").write <<~EOS
-      #include <iostream>
-      #include <TString.h>
-      int main() {
-        std::cout << TString("Hello, world!") << std::endl;
-        return 0;
-      }
-    EOS
-
-    # Test linking
-    (testpath/"test_compile.bash").write <<~EOS
-      . #{bin}/thisroot.sh
-      $(root-config --cxx) $(root-config --cflags) $(root-config --libs) $(root-config --ldflags) test.cpp
-      ./a.out
-    EOS
-    assert_equal "Hello, world!\n",
-                 shell_output("/bin/bash test_compile.bash")
-
-    # Test Python module
-    ENV["PYTHONPATH"] = lib/"root"
-    system "python3", "-c", "import ROOT; ROOT.gSystem.LoadAllLibraries()"
+    assert_match "Number of events processed : 1000",
+                 shell_output("/bin/bash test.sh")
   end
 end
