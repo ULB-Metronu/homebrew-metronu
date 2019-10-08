@@ -1,15 +1,15 @@
 class Root < Formula
   desc "Object oriented framework for large scale data analysis"
   homepage "https://root.cern.ch/"
-  url "https://root.cern.ch/download/root_v6.18.02.source.tar.gz"
-  version "6.18.02"
-  sha256 "50ffffdbf2585a536c77a03f54aa631926138275ffeee02e5a16dde87e978c1d"
+  url "https://root.cern.ch/download/root_v6.18.04.source.tar.gz"
+  version "6.18.04"
+  sha256 "315a85fc8363f8eb1bffa0decbf126121258f79bd273513ed64795675485cfa4"
   head "https://github.com/root-project/root.git"
 
   bottle do
-    sha256 "40cec3904743cdea491c2902a3a02ed3ed37cebc51e4c06422581bc4db55619e" => :mojave
-    sha256 "742151f6e2c88871ce2fc78523c52d760d24e4f9e13c65463bbd5461dad42bd1" => :high_sierra
-    sha256 "5d57207635e536423a9b8e45ccc2cff38eb582fb126fe5163f1cf76f9f660deb" => :sierra
+    sha256 "9ce760ff961b29b382d8373c6fbe72808e025b9a3e6113deb64df8586b0a853d" => :mojave
+    sha256 "acbac57657964414945706d499bab86ad7ac6367c78493a5e47de2eba111e0f1" => :high_sierra
+    sha256 "82e6f8dc5048f3977c9a942c2fd62671423f95bfe77e6d5abd9f53b6ac141b13" => :sierra
   end
 
   # https://github.com/Homebrew/homebrew-core/issues/30726
@@ -34,7 +34,7 @@ class Root < Formula
   # https://github.com/Homebrew/brew/issues/5068
   depends_on "libxml2" if MacOS.version >= :mojave
   depends_on "lz4"
-  depends_on "openssl"
+  depends_on "openssl@1.1"
   depends_on "pcre"
   depends_on "python"
   depends_on "tbb"
@@ -55,9 +55,12 @@ class Root < Formula
               "http://lcgpackages",
               "https://lcgpackages"
 
-    py_exe = "/usr/local/bin/python3" # Utils.popen_read("which python3").strip
-    py_prefix = Utils.popen_read("#{py_exe} -c 'import sys;print(sys.prefix)'").chomp
-    py_inc = Utils.popen_read("#{py_exe} -c 'from distutils import sysconfig;print(sysconfig.get_python_inc(True))'").chomp
+    py_exe = Utils.popen_read("which python3").strip
+    py_prefix = Utils.popen_read("python3 -c 'import sys;print(sys.prefix)'").chomp
+    py_inc = Utils.popen_read("python3 -c 'from distutils import sysconfig;print(sysconfig.get_python_inc(True))'").chomp
+    ohai "Python executable:   #{py_exe}"
+    ohai "Python prefix:       #{py_prefix}"
+    ohai "Python include path: #{py_inc}"
 
     args = std_cmake_args + %W[
       -DCLING_CXX_PATH=clang++

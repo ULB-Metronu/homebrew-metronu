@@ -1,29 +1,20 @@
 class Geant4 < Formula
   desc "Simulation toolkit for particle transport through matter"
   homepage "https://geant4.web.cern.ch"
-  url "http://geant4-data.web.cern.ch/geant4-data/releases/source/geant4.10.05.p01.tar.gz"
+  url "https://geant4-data.web.cern.ch/geant4-data/releases/source/geant4.10.05.p01.tar.gz"
   version "10.5.1"
   sha256 "f4a292220500fad17e0167ce3153e96e3410ecbe96284e572dc707f63523bdff"
 
   bottle do
     cellar :any
-    sha256 "268255d7e0af6a6dfb1305eed9f3a838a44fe9ef67ef465b510a60893de8f571" => :mojave
-    sha256 "7ed35e045f2ea368fce0ee929406187b230ea608ec2328e539b82c25e878f09b" => :high_sierra
-    sha256 "c3e542d8f1ff4561437e31b8aae44fe00e922d613bfaaa56611e7392f897c22c" => :sierra
+    sha256 "ff910f3a7b5d6b3c371534183d300b12ba3041a52bb3ae65e9724e726f73986b" => :mojave
+    sha256 "61afcd42a08f3faad4ea26a0ebd24d6e71d83747bd3f189ccf614425736910dd" => :high_sierra
+    sha256 "39dfed47c21318131cdb76fa383c527073199846b54985e2f2e65c46b05203e4" => :sierra
   end
 
-  option "with-gdml", "Build Geant with GDML support"
-  option "with-multithreaded", "Build Geant with multithreading support"
-  option "with-usolids", "Use USolids (experimental)"
-  option "with-qt", "Build Geant with QT visualization support"
-  option "without-examples", "Do not build Geant4 examples"
-  option "with-system-clhep", "Use system CLHEP"
-  option "with-opengl-x11", "Build the X11 OpenGL visualization driver"
-  option "with-raytracer-x11", "Build RayTracer visualization driver with X11 support"
-
   depends_on "cmake" => [:build, :test]
-  depends_on "qt" => :optional
-  depends_on "xerces-c" if build.with? "gdml"
+  depends_on "qt"
+  depends_on "xerces-c"
 
   resource "G4NDL" do
     url "https://cern.ch/geant4-data/datasets/G4NDL.4.5.tar.gz"
@@ -82,26 +73,24 @@ class Geant4 < Formula
 
   def install
     mkdir "geant-build" do
-    args = %w[
-      ../
-    ]
-    args << "-DGEANT4_USE_OPENGL_X11=ON" if build.with? "opengl-x11"
-    args << "-DGEANT4_USE_RAYTRACER_X11=ON" if build.with? "raytracer-x11"
-    args << "-DGEANT4_USE_XM=OFF"
-    args << "-DGEANT4_INSTALL_DATA=OFF"
-    args << "-DGEANT4_BUILD_EXAMPLE=OFF" if build.without? "example"
-    args << "-DGEANT4_USE_QT=ON" if build.with? "qt"
-    #args << "-DQT_QMAKE_EXECUTABLE=/usr/local/opt/qt/bin/qmake" if OS.mac? and build.with? "qt"
-    args << "-DGEANT4_USE_G3TOG4=ON" if build.with? "g3tog4"
-    args << "-DGEANT4_USE_GDML=ON" if build.with? "gdml"
-    args << "-DGEANT4_USE_USOLIDS=ON" if build.with? "usolids"
-    args << "-DGEANT4_BUILD_MULTITHREADED=ON" if build.with? "multithreaded"
-    args << "-DGEANT4_BUILD_MULTITHREADED=OFF" if build.without? "multithreaded"
-    args << "-DGEANT4_USE_SYSTEM_CLHEP=ON" if build.with? "system-clhep"
-    args.concat(std_cmake_args)
-    system "cmake", *args
-    system "make", "-j8", "install"
-  end
+      args = std_cmake_args + %w[
+        ../
+        -DGEANT4_USE_OPENGL_X11=OFF
+        -DGEANT4_USE_RAYTRACER_X11=OFF
+        -DGEANT4_USE_XM=OFF
+        -DGEANT4_INSTALL_DATA=ON
+        -DGEANT4_BUILD_EXAMPLE=OFF
+        -DGEANT4_USE_QT=ON
+        -DGEANT4_USE_G3TOG4=OFF
+        -DGEANT4_USE_GDML=ON
+        -DGEANT4_USE_USOLIDS=ON
+        -DGEANT4_BUILD_MULTITHREADED=OFF
+        -DGEANT4_USE_SYSTEM_CLHEP=ON
+      ]
+
+      system "cmake", *args
+      system "make", "-j8", "install"
+    end
 
     resources.each do |r|
       (share/"Geant4-#{version}/data/#{r.name}#{r.version}").install r
@@ -112,8 +101,6 @@ class Geant4 < Formula
     Because Geant4 expects a set of environment variables for
     datafiles, you should source:
       . #{HOMEBREW_PREFIX}/bin/geant4.sh (or .csh)
-    If using zsh use this variant:
-      pushd /usr/local/bin >/dev/null; . ./geant4.sh; popd >/dev/null
     before running an application built with Geant4.
   EOS
   end
