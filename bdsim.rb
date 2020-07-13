@@ -7,8 +7,11 @@ class Bdsim < Formula
 
   depends_on "cmake" => :build
   depends_on "bison"
+  depends_on "clhep"
+  depends_on "flex"
   depends_on "ulb-metronu/metronu/root"
   depends_on "ulb-metronu/metronu/geant4"
+  depends_on "qt" => :optional
 
   skip_clean "bin"
 
