@@ -1,16 +1,16 @@
 class Bdsim < Formula
   desc "Beam Delivery Simulation using Geant4"
   homepage "http://www.pp.rhul.ac.uk/bdsim/manual/"
-  version "scoring-4D"
-  url "https://eramoisi@bitbucket.org/jairhul/bdsim.git", :branch =>"scoring-4D"
-  head "https://eramoisi@bitbucket.org/jairhul/bdsim.git"
+  version "develop"
+  url "https://bitbucket.org/jairhul/bdsim.git", :branch =>"develop"
+  head "https://bitbucket.org/jairhul/bdsim.git"
 
   depends_on "cmake" => :build
   depends_on "bison"
   depends_on "clhep"
   depends_on "flex"
   depends_on "boost"
-  depends_on "ulb-metronu/metronu/root"
+  depends_on "root"
   depends_on "ulb-metronu/metronu/geant4"
   depends_on "qt" => :optional
 
