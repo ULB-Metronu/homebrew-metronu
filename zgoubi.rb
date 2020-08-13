@@ -12,9 +12,12 @@ class Zgoubi < Formula
 
   def install
   mkdir "build" do
-    system "cmake", "-G", "Unix Makefiles", "..", *std_cmake_args
-    system "make"
-    system "make", "install"
+    args = std_cmake_args + %w[
+        ../
+        -DCMAKE_Fortran_COMPILER=/usr/local/bin/gfortran
+      ]
+    system "cmake", *args
+    system "make", "-j8", "install"
  end
 end
 end
