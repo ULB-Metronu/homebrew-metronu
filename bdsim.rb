@@ -2,7 +2,7 @@ class Bdsim < Formula
   desc "Beam Delivery Simulation using Geant4"
   homepage "http://www.pp.rhul.ac.uk/bdsim/manual/"
   version "scoring-4D"
-  url "https://eramoisi@bitbucket.org/jairhul/bdsim.git", :branch =>"scoring-4D"
+  url "https://eramoisi@bitbucket.org/jairhul/bdsim.git", :branch =>"develop"
   head "https://eramoisi@bitbucket.org/jairhul/bdsim.git"
 
   depends_on "cmake" => :build
