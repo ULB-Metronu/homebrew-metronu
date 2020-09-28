@@ -25,7 +25,7 @@ class Bdsim < Formula
       -DUSE_AWAKE=ON
     ]
 
-    cxx_version = 14
+    cxx_version = 17
     args << "-DCMAKE_CXX_STANDARD=#{cxx_version}"
 
     mkdir "builddir" do
