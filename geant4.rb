@@ -1,9 +1,9 @@
 class Geant4 < Formula
   desc "Simulation toolkit for particle transport through matter"
   homepage "https://geant4.web.cern.ch"
-  version "10.5.1"
+  version "10.7.0"
   sha256 "f4a292220500fad17e0167ce3153e96e3410ecbe96284e572dc707f63523bdff"
-  head "https://github.com/ULB-Metronu/geant4.git", :branch =>"v10.5.1_fix"
+  head "https://github.com/ULB-Metronu/geant4.git", :branch =>"v10.7.0_fix"
 
   bottle do
     cellar :any
@@ -13,7 +13,7 @@ class Geant4 < Formula
   end
 
   depends_on "cmake" => [:build, :test]
-  depends_on "qt"
+  depends_on "qt@5"
   depends_on "xerces-c"
 
   resource "G4NDL" do
