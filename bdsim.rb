@@ -2,8 +2,8 @@ class Bdsim < Formula
   desc "Beam Delivery Simulation using Geant4"
   homepage "http://www.pp.rhul.ac.uk/bdsim/manual/"
   version "develop"
-  url "https://bitbucket.org/jairhul/bdsim.git", :branch =>"develop"
-  head "https://bitbucket.org/jairhul/bdsim.git"
+  url "https://bitbucket.org/jairhul/bdsim.git"
+  head "https://bitbucket.org/jairhul/bdsim.git", :branch =>"develop"
 
   depends_on "cmake" => :build
   depends_on "bison"
