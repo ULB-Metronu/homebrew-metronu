@@ -3,13 +3,12 @@ class Geant4 < Formula
   homepage "https://geant4.web.cern.ch"
   version "10.7.0"
   sha256 "f4a292220500fad17e0167ce3153e96e3410ecbe96284e572dc707f63523bdff"
-  head "https://github.com/ULB-Metronu/geant4.git", :branch =>"v10.7.0_fix"
+  head "https://github.com/ULB-Metronu/geant4.git", branch: "v10.7.0_fix"
 
   bottle do
-    cellar :any
-    sha256 "ff910f3a7b5d6b3c371534183d300b12ba3041a52bb3ae65e9724e726f73986b" => :mojave
-    sha256 "61afcd42a08f3faad4ea26a0ebd24d6e71d83747bd3f189ccf614425736910dd" => :high_sierra
-    sha256 "39dfed47c21318131cdb76fa383c527073199846b54985e2f2e65c46b05203e4" => :sierra
+    sha256 cellar: :any, mojave:      "ff910f3a7b5d6b3c371534183d300b12ba3041a52bb3ae65e9724e726f73986b"
+    sha256 cellar: :any, high_sierra: "61afcd42a08f3faad4ea26a0ebd24d6e71d83747bd3f189ccf614425736910dd"
+    sha256 cellar: :any, sierra:      "39dfed47c21318131cdb76fa383c527073199846b54985e2f2e65c46b05203e4"
   end
 
   depends_on "cmake" => [:build, :test]
@@ -97,12 +96,13 @@ class Geant4 < Formula
     end
   end
 
-  def caveats; <<~EOS
-    Because Geant4 expects a set of environment variables for
-    datafiles, you should source:
-      . #{HOMEBREW_PREFIX}/bin/geant4.sh (or .csh)
-    before running an application built with Geant4.
-  EOS
+  def caveats
+    <<~EOS
+      Because Geant4 expects a set of environment variables for
+      datafiles, you should source:
+        . #{HOMEBREW_PREFIX}/bin/geant4.sh (or .csh)
+      before running an application built with Geant4.
+    EOS
   end
 
   test do
