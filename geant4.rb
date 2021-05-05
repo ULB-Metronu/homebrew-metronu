@@ -14,6 +14,7 @@ class Geant4 < Formula
   depends_on "cmake" => [:build, :test]
   depends_on "qt@5"
   depends_on "xerces-c"
+  depends_on "cgal"
 
   resource "G4NDL" do
     url "https://cern.ch/geant4-data/datasets/G4NDL.4.5.tar.gz"
@@ -80,6 +81,7 @@ class Geant4 < Formula
         -DGEANT4_INSTALL_DATA=ON
         -DGEANT4_BUILD_EXAMPLE=OFF
         -DGEANT4_USE_QT=ON
+        -DGEANT4_USE_CGAL=ON
         -DGEANT4_USE_G3TOG4=OFF
         -DGEANT4_USE_GDML=ON
         -DGEANT4_USE_USOLIDS=OFF
