@@ -37,7 +37,6 @@ depends_on "lz4"
 depends_on "numpy" # for tmva
 depends_on "openssl@1.1"
 depends_on "pcre"
-depends_on "python@3.8"
 depends_on "tbb"
 depends_on "xrootd"
 depends_on "xz" # for LZMA
