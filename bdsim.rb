@@ -10,8 +10,8 @@ class Bdsim < Formula
   depends_on "clhep"
   depends_on "flex"
   depends_on "boost"
-  depends_on "ulb-metronu/metronu/root"
-  depends_on "ulb-metronu/metronu/geant4"
+  depends_on "ulb/metronu/root"
+  depends_on "ulb/metronu/geant4"
 
   skip_clean "bin"
 
