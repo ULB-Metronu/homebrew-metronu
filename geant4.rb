@@ -14,6 +14,7 @@ class Geant4 < Formula
   depends_on "cmake" => [:build, :test]
   depends_on "qt@5"
   depends_on "xerces-c"
+  depends_on "clhep"
   depends_on "cgal"
 
   resource "G4NDL" do
