@@ -56,7 +56,7 @@ inreplace "cmake/modules/SearchInstalledSoftware.cmake",
 args = std_cmake_args + %W[
 -DCLING_CXX_PATH=clang++
 -DCMAKE_INSTALL_ELISPDIR=#{elisp}
--DPYTHON_EXECUTABLE=#{Formula["python@3.8"].opt_bin}/python3
+-DPYTHON_EXECUTABLE=/usr/local/opt/python@3.8/bin/python3
 -Dbuiltin_cfitsio=OFF
 -Dbuiltin_freetype=ON
 -Dbuiltin_glew=ON
