@@ -89,7 +89,7 @@ mkdir "builddir" do
 system "cmake", "..", *args
 system "ninja", "install"
 chmod 0755, Dir[bin/"*.*sh"]
-version = Language::Python.major_minor_version Formula["python@3.8"].opt_bin/"python3"
+version = Language::Python.major_minor_version "/usr/local/opt/python@3.8/bin/python3"
 pth_contents = "import site; site.addsitedir('#{lib}/root')\n"
 (prefix/"lib/python#{version}/site-packages/homebrew-root.pth").write pth_contents
 end
