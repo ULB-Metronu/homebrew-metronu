@@ -16,6 +16,7 @@ class Geant4 < Formula
   depends_on "xerces-c"
   depends_on "clhep"
   depends_on "cgal"
+  depends_on "vtk"
 
   resource "G4NDL" do
     url "https://cern.ch/geant4-data/datasets/G4NDL.4.5.tar.gz"
@@ -86,6 +87,7 @@ class Geant4 < Formula
         -DGEANT4_USE_G3TOG4=OFF
         -DGEANT4_USE_GDML=ON
         -DGEANT4_USE_USOLIDS=OFF
+        -DGEANT4_USE_VTK=ON
         -DGEANT4_BUILD_MULTITHREADED=OFF
         -DGEANT4_USE_SYSTEM_CLHEP=ON
       ]
