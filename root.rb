@@ -74,7 +74,7 @@ args = std_cmake_args + %W[
 -Dpyroot=ON
 -Droofit=ON
 -Dssl=ON
--Dtmva=ON
+-Dtmva=OFF
 -Dxrootd=ON
 -GNinja
 ]
