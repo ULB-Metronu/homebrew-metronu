@@ -6,7 +6,7 @@ class Zgoubi < Formula
   head "https://github.com/ULB-Metronu/zgoubi.git"
 
   depends_on "cmake" => :build
-  depends_on "gcc@9"
+  depends_on "gcc@12"
 
   skip_clean "bin"
 
@@ -14,7 +14,7 @@ class Zgoubi < Formula
   mkdir "build" do
     args = std_cmake_args + %w[
         ../
-        -DCMAKE_Fortran_COMPILER=/usr/local/bin/gfortran-9
+        -DCMAKE_Fortran_COMPILER=/usr/local/bin/gfortran-12
       ]
     system "cmake", *args
     system "make", "-j8", "install"

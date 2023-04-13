@@ -9,7 +9,7 @@ class Bdsim < Formula
   depends_on "clhep"
   depends_on "flex"
   depends_on "boost"
-  depends_on "ulb/metronu/root"
+  depends_on "root"
   depends_on "ulb/metronu/geant4"
 
   skip_clean "bin"
@@ -28,7 +28,6 @@ class Bdsim < Formula
 
     mkdir "builddir" do
       system "cmake", "..", *args
-
       system "make", "install"
 
     end
